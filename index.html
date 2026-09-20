@@ -106,7 +106,7 @@ async function analyze(id){
   if(!t) return;
 
   const box=document.getElementById("aiBox");
-  box.textContent="KI analysiert die Kundenanfrage...";
+  box.textContent="🤖 KI analysiert die Kundenanfrage...";
 
   try{
     const response=await fetch("/api/chat",{
@@ -123,7 +123,22 @@ async function analyze(id){
       throw new Error(data.error||"Fehler");
     }
 
-    box.textContent=data.reply;
+    t.category=data.category;
+    t.priority=data.priority;
+    t.orderNumber=data.orderNumber;
+
+    box.innerHTML=`
+      <strong>KI-Analyse</strong><br><br>
+      Kategorie: <strong>${data.category}</strong><br>
+      Priorität: <strong>${data.priority}</strong><br>
+      Bestellnummer: <strong>${data.orderNumber||"Keine gefunden"}</strong><br><br>
+      <strong>Antwort:</strong><br>
+      ${data.reply}
+    `;
+
+    render();
+    showDetail(id);
+
   }catch(error){
     box.textContent="KI-Fehler: "+error.message;
   }
