@@ -21,7 +21,11 @@ button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}.top{he
 
     <input id="employeeName" placeholder="Dein Name"
       style="width:100%;padding:16px;margin:8px 0;border:1px solid #ddd;border-radius:12px;box-sizing:border-box;">
+<input id="email" type="email" placeholder="E-Mail"
+style="width:100%;padding:16px;margin:8px 0;border:1px solid #ddd;border-radius:12px;box-sizing:border-box;">
 
+<input id="password" type="password" placeholder="Passwort"
+style="width:100%;padding:16px;margin:8px 0;border:1px solid #ddd;border-radius:12px;box-sizing:border-box;">
     <button onclick="demoLogin()"
       style="width:100%;padding:16px;margin-top:12px;border:0;border-radius:12px;background:#171b27;color:white;font-size:17px;font-weight:700;">
       Einloggen
@@ -38,22 +42,40 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
+async function demoLogin(){
 
-  
-function demoLogin(){
   const company = document.getElementById("companyName").value.trim();
   const employee = document.getElementById("employeeName").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-  if(!company || !employee){
-    alert("Bitte Unternehmen und Namen eingeben.");
+  if(!company || !employee || !email || !password){
+    alert("Bitte alle Felder ausfüllen.");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email: email,
+    password: password
+  });
+
+  if(error){
+    alert("Login fehlgeschlagen: " + error.message);
     return;
   }
 
   localStorage.setItem("aiInboxCompany", company);
   localStorage.setItem("aiInboxEmployee", employee);
-document.getElementById("greeting").textContent = "Guten Morgen, " + employee + ".";
+
+  document.getElementById("greeting").textContent =
+    "Guten Morgen, " + employee + ".";
+
   document.getElementById("loginScreen").style.display = "none";
 }
+  
+
+
+  
 </script><header class="top"><div class="brand"><div class="logo">AI</div>AI Inbox</div><div class="online">● System online</div></header>
 <div class="layout">
 <aside>
