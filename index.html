@@ -68,12 +68,32 @@ function showDetail(id){
  <div class="actions"><button class="primary" onclick="analyze(${t.id})">🤖 Mit KI analysieren</button><button class="secondary" onclick="draft(${t.id})">✍️ Antwortentwurf</button><button class="danger" onclick="removeTicket(${t.id})">Löschen</button></div>
  <div id="aiBox"></div>`;
 }
-function analyze(id){
- const t=tickets.find(x=>x.id===id); if(!t)return;
- let cat=t.category,pri=t.priority;
- const text=(t.subject+" "+t.message).toLowerCase();
- if(/preis|kosten|kostet/.test(text)){cat="Preisfrage";pri="low"}else if(/kaputt|funktioniert nicht|defekt|reklam/.test(text)){cat="Reklamation";pri="high"}else if(/funktion|modell|produkt/.test(text)){cat="Produktfrage";pri=pri==="high"?"high":"low"}else if(/liefer|versand|bestellung/.test(text)){cat="Versand";pri="medium"}
- t.category=cat;t.priority=pri;save();render();document.getElementById("aiBox").innerHTML=`<div class="box"><b>🤖 Analyse abgeschlossen</b><p style="color:#737c8f">Kategorie und Priorität wurden anhand der Nachricht erkannt. Bestellnummer: <b>${esc(t.order)}</b>.</p><small>Hinweis: Das ist aktuell eine lokale Test-KI mit Regeln – noch keine echte externe KI-API.</small></div>`;
+async function analyze(id){
+  const t=tickets.find(x=>x.id===id);
+  if(!t) return;
+
+  const box=document.getElementById("aiBox");
+  box.textContent="KI analysiert die Kundenanfrage...";
+
+  try{
+    const response=await fetch("/api/chat",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        message:t.message
+      })
+    });
+
+    const data=await response.json();
+
+    if(!response.ok){
+      throw new Error(data.error||"Fehler");
+    }
+
+    box.textContent=data.reply;
+  }catch(error){
+    box.textContent="KI-Fehler: "+error.message;
+  }
 }
 function draft(id){
  const t=tickets.find(x=>x.id===id);if(!t)return;
