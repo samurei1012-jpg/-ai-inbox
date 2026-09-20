@@ -11,7 +11,40 @@ button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}.top{he
 </style>
 </head>
 <body>
-<header class="top"><div class="brand"><div class="logo">AI</div>AI Inbox</div><div class="online">● System online</div></header>
+<div id="loginScreen" style="position:fixed;inset:0;background:#f4f6fb;z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;">
+  <div style="background:white;width:100%;max-width:420px;padding:32px;border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,.12);">
+    <h1 style="margin-top:0;">AI Inbox</h1>
+    <p style="color:#6b7280;">Melde dich bei deinem Unternehmensbereich an.</p>
+
+    <input id="companyName" placeholder="Unternehmen"
+      style="width:100%;padding:16px;margin:8px 0;border:1px solid #ddd;border-radius:12px;box-sizing:border-box;">
+
+    <input id="employeeName" placeholder="Dein Name"
+      style="width:100%;padding:16px;margin:8px 0;border:1px solid #ddd;border-radius:12px;box-sizing:border-box;">
+
+    <button onclick="demoLogin()"
+      style="width:100%;padding:16px;margin-top:12px;border:0;border-radius:12px;background:#171b27;color:white;font-size:17px;font-weight:700;">
+      Einloggen
+    </button>
+  </div>
+</div>
+
+<script>
+function demoLogin(){
+  const company = document.getElementById("companyName").value.trim();
+  const employee = document.getElementById("employeeName").value.trim();
+
+  if(!company || !employee){
+    alert("Bitte Unternehmen und Namen eingeben.");
+    return;
+  }
+
+  localStorage.setItem("aiInboxCompany", company);
+  localStorage.setItem("aiInboxEmployee", employee);
+
+  document.getElementById("loginScreen").style.display = "none";
+}
+</script>header class="top"><div class="brand"><div class="logo">AI</div>AI Inbox</div><div class="online">● System online</div></header>
 <div class="layout">
 <aside>
 <button class="nav active" onclick="showAll()">📥 Posteingang</button>
