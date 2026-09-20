@@ -41,7 +41,7 @@ function demoLogin(){
 
   localStorage.setItem("aiInboxCompany", company);
   localStorage.setItem("aiInboxEmployee", employee);
-
+document.getElementById("greeting").textContent = "Guten Morgen, " + employee + ".";
   document.getElementById("loginScreen").style.display = "none";
 }
 </script><header class="top"><div class="brand"><div class="logo">AI</div>AI Inbox</div><div class="online">● System online</div></header>
@@ -53,7 +53,7 @@ function demoLogin(){
 <button class="nav" onclick="resetDemo()">↻ Demo zurücksetzen</button>
 </aside>
 <main>
-<section class="hero"><div><h1>Guten Morgen, Samuel.</h1><p>Hier ist dein Kundenservice für heute.</p></div><button class="primary" onclick="openNew()">＋ Neue Anfrage</button></section>
+<section class="hero"><div><h1 id="greeting">Guten Morgen.</h1><p>Hier ist dein Kundenservice für heute.</p></div><button class="primary" onclick="openNew()">＋ Neue Anfrage</button></section>
 <section class="stats">
 <div class="stat"><small>Offene Anfragen</small><strong id="sOpen">0</strong><span class="green">↓ 12 % heute</span></div>
 <div class="stat"><small>Hohe Priorität</small><strong id="sHigh">0</strong></div>
