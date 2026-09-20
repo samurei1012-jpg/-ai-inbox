@@ -41,17 +41,40 @@ Bestimme:
 
 4. Schreibe eine professionelle Antwort auf Deutsch.
 
-Gib ausschließlich dieses JSON zurück:
-
-{
-  "category": "...",
-  "priority": "...",
-  "orderNumber": "...",
-  "reply": "..."
-}
-
 Kundenanfrage:
-${message}`
+${message}`,
+
+        text: {
+          format: {
+            type: "json_schema",
+            name: "customer_service_analysis",
+            strict: true,
+            schema: {
+              type: "object",
+              properties: {
+                category: {
+                  type: "string"
+                },
+                priority: {
+                  type: "string"
+                },
+                orderNumber: {
+                  type: "string"
+                },
+                reply: {
+                  type: "string"
+                }
+              },
+              required: [
+                "category",
+                "priority",
+                "orderNumber",
+                "reply"
+              ],
+              additionalProperties: false
+            }
+          }
+        }
       })
     });
 
@@ -67,7 +90,13 @@ ${message}`
       ?.flatMap(item => item.content || [])
       ?.filter(item => item.type === "output_text")
       ?.map(item => item.text)
-      ?.join("\n") || "";
+      ?.join("") || "";
+
+    if (!text) {
+      return res.status(500).json({
+        error: "Keine KI-Antwort erhalten"
+      });
+    }
 
     const result = JSON.parse(text);
 
@@ -75,7 +104,7 @@ ${message}`
 
   } catch (error) {
     return res.status(500).json({
-      error: "Serverfehler"
+      error: error.message || "Serverfehler"
     });
   }
 }
