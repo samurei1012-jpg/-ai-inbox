@@ -18,9 +18,37 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: "gpt-5.6-luna",
-        input: `Du bist der KI-Kundenservice eines Unternehmens.
+        input: `Du bist eine professionelle KI für einen Kundenservice.
 
-Analysiere diese Kundenanfrage und gib eine professionelle Antwort auf Deutsch.
+Analysiere diese Kundenanfrage.
+
+Bestimme:
+1. Kategorie:
+- Preisfrage
+- Produktfrage
+- Defektes Gerät
+- Bestellung
+- Lieferung
+- Reklamation
+- Sonstiges
+
+2. Priorität:
+- NIEDRIG
+- MITTEL
+- HOCH
+
+3. Bestellnummer, falls vorhanden.
+
+4. Schreibe eine professionelle Antwort auf Deutsch.
+
+Gib ausschließlich dieses JSON zurück:
+
+{
+  "category": "...",
+  "priority": "...",
+  "orderNumber": "...",
+  "reply": "..."
+}
 
 Kundenanfrage:
 ${message}`
@@ -35,13 +63,15 @@ ${message}`
       });
     }
 
-    const reply = data.output
+    const text = data.output
       ?.flatMap(item => item.content || [])
       ?.filter(item => item.type === "output_text")
       ?.map(item => item.text)
-      ?.join("\n") || "Keine Antwort erhalten.";
+      ?.join("\n") || "";
 
-    return res.status(200).json({ reply });
+    const result = JSON.parse(text);
+
+    return res.status(200).json(result);
 
   } catch (error) {
     return res.status(500).json({
