@@ -76,7 +76,33 @@ async function demoLogin(){
 
   document.getElementById("loginScreen").style.display = "none";
 }
-  
+  async function demoSignup(){
+
+  const company = document.getElementById("companyName").value;
+  const employee = document.getElementById("employeeName").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if(!company || !employee || !email || !password){
+    alert("Bitte alle Felder ausfüllen.");
+    return;
+  }
+
+  const { error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password
+  });
+
+  if(error){
+    alert("Registrierung fehlgeschlagen: " + error.message);
+    return;
+  }
+
+  localStorage.setItem("aiInboxCompany", company);
+  localStorage.setItem("aiInboxEmployee", employee);
+
+  alert("Konto erstellt! Bitte bestätige deine E-Mail-Adresse.");
+}
 
 
   
