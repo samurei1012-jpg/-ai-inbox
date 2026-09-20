@@ -127,22 +127,24 @@ async function analyze(id){
     t.priority=data.priority;
     t.orderNumber=data.orderNumber;
 
+    if(typeof save==="function"){
+      save();
+    }
+
     box.innerHTML=`
-      <strong>KI-Analyse</strong><br><br>
+      <strong>🤖 KI-Analyse</strong><br><br>
       Kategorie: <strong>${data.category}</strong><br>
       Priorität: <strong>${data.priority}</strong><br>
       Bestellnummer: <strong>${data.orderNumber||"Keine gefunden"}</strong><br><br>
-      <strong>Antwort:</strong><br>
+      <strong>Antwortentwurf:</strong><br>
       ${data.reply}
     `;
-
-    render();
-    
 
   }catch(error){
     box.textContent="KI-Fehler: "+error.message;
   }
 }
+
 function draft(id){
  const t=tickets.find(x=>x.id===id);if(!t)return;
  let answer=t.category==="Preisfrage"?"Hallo "+t.name+", vielen Dank für Ihre Anfrage. Gerne informieren wir Sie über den aktuellen Preis und die Versandkosten.":t.category==="Reklamation"?"Hallo "+t.name+", vielen Dank für Ihre Nachricht. Es tut uns leid, dass das Produkt nicht funktioniert. Wir prüfen den Vorgang gerne anhand Ihrer Bestellnummer "+t.order+".":"Hallo "+t.name+", vielen Dank für Ihre Nachricht. Gerne helfen wir Ihnen weiter und prüfen Ihr Anliegen.";
