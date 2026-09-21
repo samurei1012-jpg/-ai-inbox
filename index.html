@@ -221,30 +221,56 @@ function openNew(){document.getElementById("modal").classList.add("open")}
 function closeNew(){document.getElementById("modal").classList.remove("open")}
 async function createTicket(){
 
-  const name = document.getElementById("newName").value.trim() || "Neuer Kunde";
-  const email = document.getElementById("newEmail").value.trim() || "kunde@example.de";
-  const subject = document.getElementById("newSubject").value.trim() || "Neue Anfrage";
-  const message = document.getElementById("newMessage").value.trim() || "Keine Nachricht";
+  const name = document.getElementById("newName").value.trim();
+  const email = document.getElementById("newEmail").value.trim();
+  const subject = document.getElementById("newSubject").value.trim();
+  const message = document.getElementById("newMessage").value.trim();
 
-  const id = Date.now();
+  if(!message){
+    alert("Bitte eine Nachricht eingeben.");
+    return;
+  }
+
+  if(!currentUserId){
+    alert("Bitte zuerst einloggen.");
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("tickets")
+    .insert({
+      message: message,
+      category: "Unkategorisiert",
+      priority: "medium",
+      orderNumber: "__",
+      reply: "",
+      user_id: currentUserId
+    })
+    .select()
+    .single();
+
+  if(error){
+    alert("Fehler beim Speichern: " + error.message);
+    return;
+  }
 
   const ticket = {
-    id,
-    name,
-    email,
-    subject,
-    message,
-    priority: "medium",
-    category: "Unkategorisiert",
+    id: data.id,
+    name: name || "Neuer Kunde",
+    email: email || "kunde@example.de",
+    subject: subject || "Neue Anfrage",
+    message: message,
+    priority: data.priority,
+    category: data.category,
     status: "open",
-    order: "--",
-    user_id: currentUserId
+    order: data.orderNumber,
+    user_id: data.user_id
   };
 
   tickets.unshift(ticket);
 
-  save();
-  selected = id;
+  selected = ticket.id;
+
   closeNew();
 
   document.getElementById("newName").value = "";
@@ -253,7 +279,8 @@ async function createTicket(){
   document.getElementById("newMessage").value = "";
 
   render();
-  toast("Neue Anfrage geöffnet ✓");
+
+  toast("Neue Anfrage gespeichert ✓");
 }
 function filterTickets(type){document.getElementById("filter").value=type==="high"?"high":"all";if(type==="unanswered")tickets=tickets;render()}
 function showAll(){document.getElementById("filter").value="all";document.getElementById("search").value="";render()}
