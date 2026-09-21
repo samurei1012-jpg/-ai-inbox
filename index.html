@@ -219,9 +219,42 @@ function copyText(text){navigator.clipboard?.writeText(text);toast("Antwort kopi
 function removeTicket(id){tickets=tickets.filter(t=>t.id!==id);selected=tickets[0]?.id||null;save();render();toast("Anfrage gelöscht")}
 function openNew(){document.getElementById("modal").classList.add("open")}
 function closeNew(){document.getElementById("modal").classList.remove("open")}
-function createTicket(){
- const name=document.getElementById("newName").value.trim()||"Neuer Kunde",email=document.getElementById("newEmail").value.trim()||"kunde@example.de",subject=document.getElementById("newSubject").value.trim()||"Neue Anfrage",message=document.getElementById("newMessage").value.trim()||"Keine Nachricht";
- const id=Date.now();tickets.unshift({id,name,email,subject,message,priority:"medium",category:"Unkategorisiert",status:"open",order:"—"});selected=id;save();closeNew();document.getElementById("newName").value=document.getElementById("newEmail").value=document.getElementById("newSubject").value=document.getElementById("newMessage").value="";render();toast("Neue Anfrage geöffnet ✓")}
+async function createTicket(){
+
+  const name = document.getElementById("newName").value.trim() || "Neuer Kunde";
+  const email = document.getElementById("newEmail").value.trim() || "kunde@example.de";
+  const subject = document.getElementById("newSubject").value.trim() || "Neue Anfrage";
+  const message = document.getElementById("newMessage").value.trim() || "Keine Nachricht";
+
+  const id = Date.now();
+
+  const ticket = {
+    id,
+    name,
+    email,
+    subject,
+    message,
+    priority: "medium",
+    category: "Unkategorisiert",
+    status: "open",
+    order: "--",
+    user_id: currentUserId
+  };
+
+  tickets.unshift(ticket);
+
+  save();
+  selected = id;
+  closeNew();
+
+  document.getElementById("newName").value = "";
+  document.getElementById("newEmail").value = "";
+  document.getElementById("newSubject").value = "";
+  document.getElementById("newMessage").value = "";
+
+  render();
+  toast("Neue Anfrage geöffnet ✓");
+}
 function filterTickets(type){document.getElementById("filter").value=type==="high"?"high":"all";if(type==="unanswered")tickets=tickets;render()}
 function showAll(){document.getElementById("filter").value="all";document.getElementById("search").value="";render()}
 function resetDemo(){if(confirm("Demo wirklich zurücksetzen?")){tickets=JSON.parse(JSON.stringify(seed));selected=1;save();render();toast("Demo zurückgesetzt")}}
