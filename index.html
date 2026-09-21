@@ -46,6 +46,7 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
+  let currentUserId = null;
 async function demoLogin(){
 
   const company = document.getElementById("companyName").value.trim();
@@ -67,7 +68,8 @@ async function demoLogin(){
     alert("Login fehlgeschlagen: " + error.message);
     return;
   }
-
+const { data: userData } = await supabaseClient.auth.getUser();
+currentUserId = userData.user?.id || null;
   localStorage.setItem("aiInboxCompany", company);
   localStorage.setItem("aiInboxEmployee", employee);
 
