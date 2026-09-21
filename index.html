@@ -77,6 +77,7 @@ currentUserId = userData.user?.id || null;
     "Guten Morgen, " + employee + ".";
 
   document.getElementById("loginScreen").style.display = "none";
+  loadTickets();
 }
   async function demoSignup(){
 
@@ -143,8 +144,30 @@ const seed=[
 {id:3,name:"Jonas Fischer",email:"jonas@example.de",subject:"Lieferzeit meiner Bestellung",message:"Können Sie mir sagen, wann meine Bestellung ungefähr ankommt?",priority:"medium",category:"Versand",status:"open",order:"DE-10491"},
 {id:4,name:"Sarah Klein",email:"sarah@example.de",subject:"Welche Funktionen hat Produkt A?",message:"Ich interessiere mich für Produkt A. Welche Funktionen sind enthalten?",priority:"low",category:"Produktfrage",status:"open",order:"—"}
 ];
-let tickets=JSON.parse(localStorage.getItem("aiInboxTickets")||"null")||seed;
-let selected=tickets[0]?.id||null;
+let tickets=[];
+  async function loadTickets(){
+  if(!currentUserId) return;
+
+  const { data, error } = await supabaseClient
+    .from("tickets")
+    .select("*")
+    .eq("user_id", currentUserId)
+    .order("created_at", { ascending:false });
+
+  if(error){
+    console.log("Fehler beim Laden:", error.message);
+    return;
+  }
+
+  tickets = data || [];
+
+  if(tickets.length){
+    selected = tickets[0].id;
+  }
+
+  render();
+}
+
 function save(){localStorage.setItem("aiInboxTickets",JSON.stringify(tickets))}
 function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function priorityText(p){return p==="high"?"HOCH":p==="medium"?"MITTEL":"NIEDRIG"}
