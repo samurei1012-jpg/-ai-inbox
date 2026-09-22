@@ -188,7 +188,7 @@ function showDetail(id){
  <div class="meta"><div><span class="label">Kategorie</span><b>${esc(t.category)}</b></div><div><span class="label">Priorität</span><b>${priorityText(t.priority)}</b></div><div><span class="label">Bestellnummer</span><b>${esc(t.order)}</b></div><div><span class="label">Status</span><b>${t.status==="answered"?"Beantwortet":"Offen"}</b></div></div>
  <div class="box"><span class="label">Kundennachricht</span>${esc(t.message)}</div>
  <div class="actions"><button class="primary" onclick="analyze(${t.id})">🤖 Mit KI analysieren</button><button class="secondary" onclick="draft(${t.id})">✍️ Antwortentwurf</button><button class="danger" onclick="removeTicket(${t.id})">Löschen</button></div>
- <div id="aiBox"></div>`;
+<div id="aiBox">${t.reply ? `<strong>🤖 KI-Analyse</strong><br><br><strong>Antwortentwurf:</strong><br>${t.reply}` : ""}</div>
 }
 async function analyze(id){
   const t=tickets.find(x=>x.id===id);
