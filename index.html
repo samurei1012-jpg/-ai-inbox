@@ -216,9 +216,20 @@ async function analyze(id){
     t.priority=data.priority;
     t.orderNumber=data.orderNumber;
 
-    if(typeof save==="function"){
-      save();
-    }
+    const { error: updateError } = await supabaseClient
+  .from("tickets")
+  .update({
+    category: data.category,
+    priority: data.priority,
+    orderNumber: data.orderNumber,
+    reply: data.reply
+  })
+  .eq("id", t.id)
+  .eq("user_id", currentUserId);
+
+if(updateError){
+  throw new Error("Speichern fehlgeschlagen: " + updateError.message);
+}
 
     box.innerHTML=`
       <strong>🤖 KI-Analyse</strong><br><br>
