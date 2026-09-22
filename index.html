@@ -256,7 +256,7 @@ function removeTicket(id){tickets=tickets.filter(t=>t.id!==id);selected=tickets[
 function openNew(){document.getElementById("modal").classList.add("open")}
 function closeNew(){document.getElementById("modal").classList.remove("open")}
 async function createTicket(){
-
+alert("createTicket wird ausgeführt!");
   const name = document.getElementById("newName").value.trim();
   const email = document.getElementById("newEmail").value.trim();
   const subject = document.getElementById("newSubject").value.trim();
