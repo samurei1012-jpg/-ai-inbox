@@ -275,15 +275,11 @@ async function createTicket(){
   const { data, error } = await supabaseClient
     .from("tickets")
     .insert({
-      name: name || "Neuer Kunde",
-      email: email || "kunde@example.de",
-      subject: subject || "Neue Anfrage",
       message: message,
       category: "Unkategorisiert",
       priority: "medium",
       orderNumber: "__",
       reply: "",
-      status: "open",
       user_id: currentUserId
     })
     .select()
@@ -296,20 +292,19 @@ async function createTicket(){
 
   const ticket = {
     id: data.id,
-    name: data.name,
-    email: data.email,
-    subject: data.subject,
-    message: data.message,
+    name: name || "Neuer Kunde",
+    email: email || "kunde@example.de",
+    subject: subject || "Neue Anfrage",
+    message: message,
     priority: data.priority,
     category: data.category,
-    status: data.status,
+    status: "open",
     order: data.orderNumber,
     reply: data.reply,
     user_id: data.user_id
   };
 
   tickets.unshift(ticket);
-
   selected = ticket.id;
 
   closeNew();
