@@ -158,9 +158,11 @@ let tickets=[];
     console.log("Fehler beim Laden:", error.message);
     return;
   }
-
-  tickets = data || [];
-
+tickets = (data || []).map(t => ({
+  ...t,
+  order: t.orderNumber
+}));
+ 
   if(tickets.length){
     selected = tickets[0].id;
   }
