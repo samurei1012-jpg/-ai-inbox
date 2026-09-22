@@ -272,56 +272,123 @@ async function createTicket(){
     return;
   }
 
-  const { data, error } = await supabaseClient
-    .from("tickets")
-    .insert({
-      message: message,
-      category: "Unkategorisiert",
-      priority: "medium",
-      orderNumber: "__",
-      reply: "",
-      user_id: currentUserId
-    })
-    .select()
-    .single();
+  try{
 
-  if(error){
-    alert("Fehler beim Speichern: " + error.message);
+    const { data, error } = await supabaseClient
+      .from("tickets")
+      .insert({
+        message: message,
+        category: "Unkategorisiert",
+        priority: "MITTEL",
+        orderNumber: "",
+        reply: "",
+        user_id: currentUserId
+      })
+      .select()
+      .single();
+
+    if(error){
+      console.error(error);
+      alert("Fehler beim Speichern: " + error.message);
+      return;
+    }
+
+    const ticket = {
+      id: data.id,
+      name: name || "Neuer Kunde",
+      email: email || "kunde@example.de",
+      subject: subject || "Neue Anfrage",
+      message: message,
+      priority: data.priority,
+      category: data.category,
+      status: "open",
+      order: data.orderNumber,
+      reply: data.reply,
+      user_id: data.user_id
+    };
+
+    tickets.unshift(ticket);
+
+    selected = ticket.id;
+
+    closeNew();
+
+    document.getElementById("newName").value = "";
+    document.getElementById("newEmail").value = "";
+    document.getElementById("newSubject").value = "";
+    document.getElementById("newMessage").value = "";
+
+    render();
+
+    toast("Neue Anfrage gespeichert ✓");
+
+  }catch(error){
+
+    console.error(error);
+    alert("Fehler: " + error.message);
+
+  }
+}
+function filterTickets(type){
+  if(type === "all"){
+    render();
     return;
   }
 
-  const ticket = {
-    id: data.id,
-    name: name || "Neuer Kunde",
-    email: email || "kunde@example.de",
-    subject: subject || "Neue Anfrage",
-    message: message,
-    priority: data.priority,
-    category: data.category,
-    status: "open",
-    order: data.orderNumber,
-    reply: data.reply,
-    user_id: data.user_id
-  };
+  const original = tickets;
 
-  tickets.unshift(ticket);
-  selected = ticket.id;
-
-  closeNew();
-
-  document.getElementById("newName").value = "";
-  document.getElementById("newEmail").value = "";
-  document.getElementById("newSubject").value = "";
-  document.getElementById("newMessage").value = "";
+  if(type === "high"){
+    tickets = original.filter(
+      t => String(t.priority).toUpperCase() === "HOCH"
+    );
+  }
 
   render();
 
-  toast("Neue Anfrage gespeichert ✓");
+  tickets = original;
 }
-function filterTickets(type){document.getElementById("filter").value=type==="high"?"high":"all";if(type==="unanswered")tickets=tickets;render()}
-function showAll(){document.getElementById("filter").value="all";document.getElementById("search").value="";render()}
-function resetDemo(){if(confirm("Demo wirklich zurücksetzen?")){tickets=JSON.parse(JSON.stringify(seed));selected=1;save();render();toast("Demo zurückgesetzt")}}
-function toast(s){let x=document.getElementById("toast");x.textContent=s;x.style.display="block";setTimeout(()=>x.style.display="none",1800)}
+
+
+function showAll(){
+  render();
+}
+
+
+function resetDemo(){
+
+  if(!confirm("Demo wirklich zurücksetzen?")){
+    return;
+  }
+
+  tickets = [];
+  selected = null;
+
+  render();
+
+  toast("Demo zurückgesetzt");
+}
+
+
+function toast(s){
+
+  const x = document.getElementById("toast");
+
+  if(!x){
+    alert(s);
+    return;
+  }
+
+  x.textContent = s;
+  x.style.display = "block";
+
+  setTimeout(function(){
+    x.style.display = "none";
+  }, 2500);
+}
+
+
 render();
+
 </script>
-</body></html>
+</body>
+</html>
