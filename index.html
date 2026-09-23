@@ -27,28 +27,28 @@ main{padding:32px;max-width:1500px;width:100%;margin:0 auto}
 .primary{background:#171b27;color:white;border-radius:13px;padding:15px 20px;font-weight:750}
 .primary:disabled{opacity:.6;cursor:wait}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0}
-.stat{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}
+.stat{background:#fff;border:1px solid #e6eaf0;border-radius:16px;padding:20px;box-shadow:0 4px 14px rgba(23,27,39,.05)}
 .stat small{color:var(--muted);font-size:15px}
-.stat strong{display:block;font-size:38px;margin-top:8px}
+.stat strong{display:block;font-size:34px;margin-top:4px;font-weight:800;letter-spacing:-.5px}
 .green{color:var(--green)}
 .workspace{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}
-.panel{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.panel{background:#fff;border:1px solid #e6eaf0;border-radius:18px;box-shadow:0 4px 18px rgba(23,27,39,.05);overflow:hidden}
 .panelhead{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;justify-content:space-between}
 .panelhead h2{font-size:20px;margin:0}
 .tools{display:flex;gap:8px}
 .tools input,.tools select{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
-.ticket{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;cursor:pointer}
-.ticket:hover{background:#fafaff}
+.ticket{padding:18px 20px;border-bottom:1px solid #eef1f5;transition:background .15s ease}
+.ticket:hover{background:#f7f9fc;transform:translateX(2px)}
 .ticket-main{min-width:0}
-.ticket-name{font-weight:800}
-.ticket-sub{font-weight:700;margin:5px 0}
+.ticket-name{font-weight:800;font-size:15px;color:var(--ink)}
+.ticket-sub{font-weight:650;margin:5px 0 0;color:var(--muted);font-size:13px}
 .preview{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .badges{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
-.badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;background:#edf0f5;color:#566071}
+.badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;line-height:1}
 .high{background:#fde8e6;color:#ad3832}
 .medium{background:#fff3db;color:#996514}
 .low{background:#eaf6ec;color:#4d8a5d}
-.detail{padding:24px}
+.detail{padding:26px}
 .detail h2{margin:0 0 8px}
 .meta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
 .meta div{background:#f6f7fa;border-radius:12px;padding:12px}
