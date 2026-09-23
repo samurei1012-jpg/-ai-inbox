@@ -9,21 +9,21 @@
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--ink:#171b27;--muted:#737c8f;--line:#e2e6ee;--accent:#5b55e8;--green:#4d8a5d}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+body{margin:0;background:#f5f7fb;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer;border:0}
-.top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 28px}
-.brand{display:flex;align-items:center;gap:12px;font-size:23px;font-weight:800}
+.top{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.brand{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:800}
 .logo{width:44px;height:44px;border-radius:14px;background:#171b27;color:white;display:grid;place-items:center;font-weight:900}
-.online{background:#edf8ef;color:#4d8a5d;padding:10px 16px;border-radius:22px;font-weight:650}
+.online{background:#edf8ef;color:#4d8a5d;padding:8px 14px;border-radius:20px;font-weight:650;font-size:13px}
 .layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 72px)}
 aside{background:#fff;border-right:1px solid var(--line);padding:24px 16px}
 .nav{display:block;width:100%;text-align:left;padding:13px 14px;border-radius:12px;background:transparent;color:#596274;margin-bottom:6px}
 .nav.active,.nav:hover{background:#f0efff;color:var(--accent);font-weight:700}
-main{padding:30px;max-width:1500px;width:100%;margin:auto}
+main{padding:32px;max-width:1500px;width:100%;margin:0 auto}
 .hero{display:flex;justify-content:space-between;gap:20px;align-items:end}
-.hero h1{font-size:42px;margin:0 0 5px}
-.hero p{font-size:18px;color:var(--muted);margin:0}
+.hero h1{font-size:40px;margin:0 0 6px;font-weight:800;letter-spacing:-.5px}
+.hero p{font-size:16px;color:var(--muted);margin:0;line-height:1.6}
 .primary{background:#171b27;color:white;border-radius:13px;padding:15px 20px;font-weight:750}
 .primary:disabled{opacity:.6;cursor:wait}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:28px 0}
