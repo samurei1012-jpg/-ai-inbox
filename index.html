@@ -408,7 +408,7 @@ reply:t.reply
 
 if(error)throw new Error("Speichern fehlgeschlagen: "+error.message);
 
-showDetail(t.id);
+render();showDetail(t.id);
 toast("KI-Analyse gespeichert ✓");
 
 }catch(error){
