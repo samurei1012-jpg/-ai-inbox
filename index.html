@@ -441,8 +441,37 @@ async function answer(id){
 const t=tickets.find(x=>String(x.id)===String(id));
 if(!t)return;
 
+if(!t.email){
+alert("Keine E-Mail-Adresse beim Ticket vorhanden.");
+return;
+}
+
+if(!t.reply){
+alert("Es gibt noch keinen Antwortentwurf.");
+return;
+}
+
+try{
+
+const emailResponse=await fetch("/api/send-email",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+to:t.email,
+subject:t.subject?"Re: "+t.subject:"Antwort auf Ihre Anfrage",
+html:"<p>"+esc(t.reply).replace(/\n/g,"<br>")+"</p>"
+})
+});
+
+const emailData=await emailResponse.json();
+
+if(!emailResponse.ok){
+throw new Error(emailData.error||"E-Mail konnte nicht gesendet werden");
+}
+
 t.status="answered";
-if(!t.reply)t.reply="Antwortentwurf erstellt.";
 
 const {error}=await supabaseClient
 .from("tickets")
@@ -451,12 +480,16 @@ const {error}=await supabaseClient
 .eq("user_id",currentUserId);
 
 if(error){
-alert("Fehler beim Speichern: "+error.message);
+alert("E-Mail wurde gesendet, aber das Ticket konnte nicht gespeichert werden: "+error.message);
 return;
 }
 
 render();
-toast("Anfrage als beantwortet markiert ✓");
+toast("E-Mail erfolgreich gesendet ✓");
+
+}catch(error){
+alert("E-Mail-Fehler: "+error.message);
+}
 }
 
 async function copyText(text){
