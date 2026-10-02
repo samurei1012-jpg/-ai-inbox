@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
     // Vollständige E-Mail bei Resend abrufen
     const emailResponse = await fetch(
-      `https://api.resend.com/emails/${emailId}`,
+     `https://api.resend.com/emails/receiving/${emailId}`,
       {
         method: "GET",
         headers: {
