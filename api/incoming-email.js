@@ -33,7 +33,7 @@ export default async function handler(req, res) {
 
     // Vollständige E-Mail bei Resend abrufen
     const emailResponse = await fetch(
-     `https://api.resend.com/emails/receiving/${emailId}`,
+      `https://api.resend.com/emails/receiving/${emailId}`,
       {
         method: "GET",
         headers: {
@@ -70,7 +70,7 @@ ${emailText}
 
     console.log("🤖 Sende E-Mail an die KI...");
 
-    // Deine bereits funktionierende KI verwenden
+    // Bereits funktionierende KI verwenden
     const baseUrl = `https://${req.headers.host}`;
 
     const aiResponse = await fetch(`${baseUrl}/api/chat`, {
@@ -96,15 +96,57 @@ ${emailText}
 
     console.log("✅ KI-Analyse erfolgreich:", aiData);
 
+    // Ticket in Supabase speichern
+    console.log("💾 Speichere Ticket in Supabase...");
+
+    const supabaseResponse = await fetch(
+      `${process.env.SUPABASE_URL}/rest/v1/tickets`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+          Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+          Prefer: "return=representation"
+        },
+        body: JSON.stringify({
+          message: emailText,
+          category: aiData.category,
+          priority: aiData.priority,
+          orderNumber: aiData.orderNumber,
+          reply: aiData.reply,
+          user_id: process.env.AI_INBOX_USER_ID,
+          name: from,
+          email: from,
+          subject: subject,
+          status: "open"
+        })
+      }
+    );
+
+    const ticketData = await supabaseResponse.json();
+
+    if (!supabaseResponse.ok) {
+      console.error("Supabase Fehler:", ticketData);
+
+      return res.status(supabaseResponse.status).json({
+        error: "Ticket konnte nicht gespeichert werden",
+        details: ticketData
+      });
+    }
+
+    console.log("✅ Ticket erfolgreich in Supabase gespeichert:", ticketData);
+
     return res.status(200).json({
       success: true,
+      message: "E-Mail verarbeitet und Ticket erstellt",
       email: {
         id: emailId,
         from,
-        subject,
-        text: emailText
+        subject
       },
-      analysis: aiData
+      analysis: aiData,
+      ticket: ticketData
     });
 
   } catch (error) {
