@@ -286,7 +286,7 @@ tickets=(data||[]).map(t=>({
 selected=tickets.length?tickets[0].id:null;
 render();
 }
-
+setInterval(loadTickets, 10000);
 function render(){
 const q=(document.getElementById("search")?.value||"").toLowerCase();
 const f=document.getElementById("filter")?.value||"all";
