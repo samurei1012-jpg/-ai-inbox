@@ -274,13 +274,13 @@ return;
 }
 
 tickets=(data||[]).map(t=>({
-...t,
-name:"Kunde",
-email:"",
-subject:"Kundenanfrage",
-priority:normalizePriority(t.priority),
-status:t.reply?"answered":"open",
-order:t.orderNumber||""
+  ...t,
+  name:t.name||"Kunde",
+  email:t.email||"",
+  subject:t.subject||"Kundenanfrage",
+  priority:normalizePriority(t.priority),
+  status:t.status||"open",
+  order:t.orderNumber||""
 }));
 
 selected=tickets.length?tickets[0].id:null;
