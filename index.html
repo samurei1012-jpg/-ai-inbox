@@ -431,7 +431,9 @@ document.getElementById("aiBox").innerHTML=`
 <span class="label">Antwortentwurf</span>
 <p>${esc(answer)}</p>
 <div class="actions">
-<button class="success" onclick="answer('${t.id}')">✓ Als beantwortet markieren</button>
+
+<button class="success" onclick="answer('${t.id}')">Als beantwortet markieren und senden</button>
+
 <button class="secondary" onclick='copyText(${JSON.stringify(answer)})'>Kopieren</button>
 </div>
 </div>`;
