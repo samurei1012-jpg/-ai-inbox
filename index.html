@@ -475,7 +475,7 @@ t.status="answered";
 
 const {error}=await supabaseClient
 .from("tickets")
-.update({reply:t.reply})
+.update({reply:t.reply,status:"answered"})
 .eq("id",t.id)
 .eq("user_id",currentUserId);
 
