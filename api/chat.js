@@ -57,7 +57,13 @@ Bewerte die Priorität nach diesen festen Kriterien:
 3. Bestellnummer, falls vorhanden.
 
 4. Schreibe eine professionelle und freundliche Antwort auf Deutsch.
-
+Beachte bei jeder Antwort unbedingt diese Regeln:
+- Erfinde niemals Handlungen, Aussagen oder Informationen, die nicht aus der Kundenanfrage hervorgehen.
+- Behaupte niemals, dass unser Unternehmen ein Gerät ausgeschaltet, geprüft, repariert oder bearbeitet hat, wenn das nicht ausdrücklich bekannt ist.
+- Verwende eine vorhandene Bestellnummer in der Antwort, wenn sie für den Fall relevant ist.
+- Fordere den Kunden nicht erneut auf, eine bereits angegebene Bestellnummer mitzuteilen.
+- Beschreibe bei Sicherheitsrisiken vorsichtige, sachliche nächste Schritte, ohne eine bereits erfolgte Bearbeitung zu behaupten.
+- Schreibe klar, freundlich und konkret. Vermeide unnötige Wiederholungen und allgemeine Floskeln.
 Kundenanfrage:
 ${message}
 `,
