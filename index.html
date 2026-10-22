@@ -420,11 +420,13 @@ function draft(id){
 const t=tickets.find(x=>String(x.id)===String(id));
 if(!t)return;
 
+const name=t.name&&t.name!=="Kunde"&&!t.name.includes("@")?t.name:null;
+const greeting=name?"Hallo "+name+",":"Guten Tag,";
 const answer=t.category==="Preisfrage"
-?"Hallo "+t.name+", vielen Dank für Ihre Anfrage. Gerne informieren wir Sie über den aktuellen Preis und die Versandkosten."
+?greeting+" vielen Dank für Ihre Anfrage. Gerne informieren wir Sie über den aktuellen Preis und die Versandkosten."
 :t.category==="Reklamation"
-?"Hallo "+t.name+", vielen Dank für Ihre Nachricht. Es tut uns leid, dass das Produkt nicht funktioniert. Wir prüfen Ihr Anliegen gerne anhand Ihrer Bestellnummer "+t.order+"."
-:"Hallo "+t.name+", vielen Dank für Ihre Nachricht. Gerne helfen wir Ihnen weiter und prüfen Ihr Anliegen.";
+?greeting+" vielen Dank für Ihre Nachricht. Es tut uns leid, dass das Produkt nicht funktioniert. Wir prüfen Ihr Anliegen gerne anhand Ihrer Bestellnummer "+t.order+"."
+:greeting+" vielen Dank für Ihre Nachricht. Gerne helfen wir Ihnen weiter und prüfen Ihr Anliegen.";
 
 document.getElementById("aiBox").innerHTML=`
 <div class="box">
