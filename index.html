@@ -283,7 +283,7 @@ tickets=(data||[]).map(t=>({
   order:t.orderNumber||""
 }));
 
-selected=tickets.length?tickets[0].id:null;
+selected=tickets.some(t=>String(t.id)===String(selected))?selected:(tickets.length?tickets[0].id:null);
 render();
 }
 setInterval(loadTickets, 10000);
