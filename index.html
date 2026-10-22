@@ -422,12 +422,7 @@ if(!t)return;
 
 const name=t.name&&t.name!=="Kunde"&&!t.name.includes("@")?t.name:null;
 const greeting=name?"Hallo "+name+",":"Guten Tag,";
-const answer=t.category==="Preisfrage"
-?greeting+" vielen Dank für Ihre Anfrage. Gerne informieren wir Sie über den aktuellen Preis und die Versandkosten."
-:t.category==="Reklamation"
-?greeting+" vielen Dank für Ihre Nachricht. Es tut uns leid, dass das Produkt nicht funktioniert. Wir prüfen Ihr Anliegen gerne anhand Ihrer Bestellnummer "+t.order+"."
-:greeting+" vielen Dank für Ihre Nachricht. Gerne helfen wir Ihnen weiter und prüfen Ihr Anliegen.";
-
+const answer=t.reply||"Guten Tag, vielen Dank für Ihre Nachricht. Wir prüfen Ihr Anliegen und melden uns bei Ihnen.";
 document.getElementById("aiBox").innerHTML=`
 <div class="box">
 <span class="label">Antwortentwurf</span>
