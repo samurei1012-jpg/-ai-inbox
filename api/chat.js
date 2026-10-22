@@ -46,6 +46,14 @@ Bestimme:
 - MITTEL
 - HOCH
 
+Bewerte die Priorität nach diesen festen Kriterien:
+- HOCH: akute Gefahr, Sicherheitsproblem, erheblicher Schaden oder ein dringender Ausfall mit großen Auswirkungen.
+- MITTEL: konkreter Defekt, Reklamation, fehlende Lieferung oder ein Problem, das bearbeitet werden muss, aber nicht akut ist.
+- NIEDRIG: allgemeine Fragen, Preisfragen und einfache Informationsanfragen ohne Dringlichkeit.
+- Ein Defekt allein bedeutet nicht automatisch HOCH.
+- Verwende ausschließlich die drei Werte NIEDRIG, MITTEL oder HOCH.
+- Bewerte bei jeder Analyse dieselbe Kundenanfrage nach denselben Kriterien. Ändere die Priorität nur, wenn der Inhalt der Anfrage dies sachlich rechtfertigt.
+
 3. Bestellnummer, falls vorhanden.
 
 4. Schreibe eine professionelle und freundliche Antwort auf Deutsch.
